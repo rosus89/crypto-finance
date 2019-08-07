@@ -1,25 +1,26 @@
 import React from 'react';
-import logo from './logo.svg';
+import {Container, Box} from '@material-ui/core';
 import './App.css';
 
+import NewTransaction from './containers/new_transaction'
+import Transactions from './containers/transactions'
+
 function App() {
+  const [transactions, setTransactions] = React.useState([]);
+
+  const createTransaction = (from, to, amount, price) => {
+    setTransactions([...transactions, { "from": from, "to": to, "amount": amount, "price": price }])
+    console.log(transactions)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container fixed>
+      <Box className="transaction">
+      <NewTransaction createTransaction = {createTransaction} />
+      </Box>
+
+      <Transactions transactions= {transactions}/>
+    </Container>
   );
 }
 
