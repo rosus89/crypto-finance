@@ -1,16 +1,17 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Table, TableBody, TableCell, TableHead, TableRow, Paper } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableHead, TableRow, Paper, Typography } from '@material-ui/core';
 
 const styles = makeStyles(theme => ({
     transactions:{
-        minHeight: '300px'
+        minHeight: '300px',
+        margin: '4px 0'
     }
 }));
 
 function Transactions(props){
     let classes = styles();
-    let output = <div>There are no transactions</div>;
+    let output = <Typography>There are no transactions</Typography>;
 
     if (props.transactions.length > 0) {
         output = (<Table className={classes.table}>
@@ -25,11 +26,10 @@ function Transactions(props){
             <TableBody>
                 {props.transactions.map((transaction, index) => (
                     <TableRow key={index}>
-                        {console.log(transaction)}
-                        <TableCell size="small">{transaction.from.value}/{transaction.to.value}</TableCell>
-                        <TableCell size="small">{transaction.amount} {transaction.to.value}</TableCell>
-                        <TableCell size="small">{transaction.price} {transaction.from.value}</TableCell>
-                        <TableCell size="small">{transaction.amount * transaction.price} {transaction.from.value}</TableCell>
+                        <TableCell size="small">{transaction.from}/{transaction.to}</TableCell>
+                        <TableCell size="small">{transaction.amount} {transaction.to}</TableCell>
+                        <TableCell size="small">{transaction.price} {transaction.from}</TableCell>
+                        <TableCell size="small">{transaction.amount * transaction.price} {transaction.from}</TableCell>
                     </TableRow>
                 ))}
             </TableBody>

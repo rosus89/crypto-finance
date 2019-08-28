@@ -24,6 +24,7 @@ let NewTransaction = (props) => {
 
   return (
     <Paper>
+    <form>
     <Currency
               from = {from}
               setFrom = {setFrom}
@@ -41,11 +42,12 @@ let NewTransaction = (props) => {
               variant="outlined"
               color="primary"
               className={classes.saveButton}
-              onClick={() => props.createTransaction(from, to, amount, price)}
+              onClick={() => props.createTransaction(from.value, to.value, amount, price)}
       >
             Save
     </Button>
     </div>
+      </form>
     </Paper>
   );
 }

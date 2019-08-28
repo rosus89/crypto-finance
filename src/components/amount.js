@@ -30,6 +30,7 @@ function Amount(props){
                 label = 'Amount'
                 type = 'number'
                 onChange = {(e)=>{ props.setAmount(e.target.value)}}
+                required
         />
         <TextField
                 variant="outlined"
@@ -37,6 +38,7 @@ function Amount(props){
                 label = 'Price'
                 type='number'
                 onChange={(e) => { props.setPrice(e.target.value) }}
+                required
         />
         </div>
     )
