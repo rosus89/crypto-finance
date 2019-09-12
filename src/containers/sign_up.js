@@ -9,7 +9,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import {auth} from '../firebase';
+import {auth, fb} from '../firebase';
 
 
 
@@ -38,13 +38,25 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
+
+
 export default function SignUp(props) {
+    const resetForm = () => {
+        setEmail("");
+        setPassword("");
+    }
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
     const classes = useStyles();
     function registerUser(){
         auth.createUserWithEmailAndPassword(email,password).then(cred => {
-            auth.signInWithCredential(cred);
+            resetForm();
+            console.log(cred);
+            // auth.signInWithCredential(cred);
+            fb.collection('users').doc(auth.currentUser.uid).set({
+                transactions: []
+            })
+
         })
     }
 
@@ -57,7 +69,7 @@ export default function SignUp(props) {
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     Sign up
-        </Typography>
+                </Typography>
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
@@ -94,7 +106,7 @@ export default function SignUp(props) {
                         onClick={() => registerUser()}
                     >
                         Sign Up
-          </Button>
+                    </Button>
                     <Grid container justify="flex-end">
                         <Grid item>
                             <Link 
@@ -102,7 +114,7 @@ export default function SignUp(props) {
                                 onClick= {() => { props.setPage("signIn")}}
                                 >
                                 Already have an account? Sign in
-              </Link>
+                            </Link>
                         </Grid>
                     </Grid>
                 </form>

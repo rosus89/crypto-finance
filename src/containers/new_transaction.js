@@ -19,7 +19,7 @@ let NewTransaction = (props) => {
   const [to, setTo] = React.useState(null);
   const [amount, setAmount] = React.useState(null);
   const [price, setPrice] = React.useState(null);
-  // const transaction = {"from": from, "to": to, "amount":amount, "price":price};
+
 
 
   return (
