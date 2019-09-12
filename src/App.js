@@ -1,62 +1,80 @@
 import React from 'react';
-import {Container, Box} from '@material-ui/core';
-// import getData from './api';
-import './App.css';
 import {auth, fb} from './firebase'
 import firebase from 'firebase'
 
-import NewTransaction from './containers/new_transaction';
-import Transactions from './containers/transactions';
-import Statistics from './containers/statistics';
-import TopBar from './components/appBar';
+
 import Account from './containers/account'
+import Loading from './containers/loading'
+import UserPage from './containers/userPage'
 
 
 
 function App() {
+
+
+  // 
+  // State
+  // 
+
   const [transactions, setTransactions] = React.useState([]);
-  const [signedIn, setSignedIn] = React.useState(false)
-  // getData();
+  const [isAuth, setIsAuth] = React.useState(false);
+  const [loaded, setLoaded] = React.useState(false);
+  const [dataFetched, setFetched] = React.useState(false)
+
+  // 
+  // Create new Transaction
+  // 
+
   const createTransaction = (from, to, amount, price) => {
     const addedTransaction = { "from": from, "to": to, "amount": amount, "price": price }
+    // adds transaction to state
     setTransactions([...transactions, addedTransaction ])
+    //adds transaction to database
     fb.collection('users').doc(auth.currentUser.uid).update({
       transactions: firebase.firestore.FieldValue.arrayUnion(addedTransaction)
     })
-    
-  }
+  };
+
+  // 
+  // Change app state on user Login / Logout
+  // 
+
   auth.onAuthStateChanged(function(user){
     if (user){
-      setSignedIn(true);
-      fb.collection('users').doc(user.uid).get().then(doc =>{
-        let userData = doc.data();
-        setTransactions(userData.transactions)
-      })
+      setIsAuth(true);
+      setLoaded(true);
+      console.log("user signed in")
     }
     else {
-      setSignedIn(false);
+      setIsAuth(false)
+      setLoaded(true);
     }
   })
-  if (signedIn === true){
+
+
+  //
+  // Change Change app state on user Login
+  //
+
+  if (isAuth){
+   
   return (
-    <div>
-    <TopBar/>
-    <div className="spacer"></div>
-    <Container fixed>
-      <Box className="transaction">
-      <NewTransaction createTransaction = {createTransaction} />
-      </Box>
-
-      <Transactions transactions = {transactions}/>
-
-      <Statistics transactions = {transactions} />
-    </Container>
-    </div>
-  );
+    <UserPage createTransaction={createTransaction}
+              transactions={transactions} 
+              setTransactions={setTransactions}
+              setFetched={setFetched}
+              dataFetched={dataFetched}
+              />
+  )
+  }
+  else if (loaded === true) {
+    return (
+      <Account setFetched={setFetched} />
+    )
   }
   else {
     return (
-      <Account />
+      <Loading />
     )
   }
 }

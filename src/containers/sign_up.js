@@ -51,7 +51,6 @@ export default function SignUp(props) {
     function registerUser(){
         auth.createUserWithEmailAndPassword(email,password).then(cred => {
             resetForm();
-            console.log(cred);
             // auth.signInWithCredential(cred);
             fb.collection('users').doc(auth.currentUser.uid).set({
                 transactions: []

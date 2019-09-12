@@ -6,7 +6,8 @@ import {auth} from '../firebase';
 function TopBar(){
 
     return(
-        <AppBar >
+        <React.Fragment>
+        <AppBar position="absolute">
             <Toolbar>
                 <Button
                     onClick={()=>{auth.signOut()}}
@@ -14,6 +15,8 @@ function TopBar(){
                 </Button>
             </Toolbar>
         </AppBar>
+        <Toolbar />
+        </React.Fragment>
     )
 }
 

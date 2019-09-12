@@ -47,7 +47,6 @@ export default function SignIn(props) {
 
     function loginUser(){
         auth.signInWithEmailAndPassword(email,password).then(()=>{
-            console.log("signed in")
         })
     }
     return (
@@ -94,7 +93,7 @@ export default function SignIn(props) {
                         variant="contained"
                         color="primary"
                         className={classes.submit}
-                         onClick={() => loginUser()}
+                        onClick={loginUser}
                     >
                         Sign In
           </Button>
