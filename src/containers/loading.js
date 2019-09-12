@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles, CircularProgress, Container, Paper } from '@material-ui/core';
+import { makeStyles, CircularProgress, Container } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
     progress: {

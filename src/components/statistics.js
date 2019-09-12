@@ -1,6 +1,6 @@
 import React from 'react';
-import { Table, TableBody, TableCell, TableHead, TableRow, Paper, Typography} from '@material-ui/core';
-import PriceStat from '../components/priceStat'
+import { Table, TableCell, TableHead, TableRow, Paper, Typography} from '@material-ui/core';
+import PriceStat from './priceStat'
 
 const groupBy = key => array =>
   array.reduce((objectsByKeyValue, obj) => {

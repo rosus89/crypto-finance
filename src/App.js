@@ -11,7 +11,6 @@ import UserPage from './containers/userPage'
 
 function App() {
 
-
   // 
   // State
   // 
@@ -51,6 +50,17 @@ function App() {
     }
   })
 
+  //
+  // Fetch Data from database
+  //
+
+  const getData = () => {
+    fb.collection('users').doc(auth.currentUser.uid).get().then(doc => {
+      let data = doc.data();
+      console.log(data);
+      setTransactions(data.transactions)
+    }, [])
+  };
 
   //
   // Change Change app state on user Login
@@ -61,7 +71,7 @@ function App() {
   return (
     <UserPage createTransaction={createTransaction}
               transactions={transactions} 
-              setTransactions={setTransactions}
+              getData ={getData}
               setFetched={setFetched}
               dataFetched={dataFetched}
               />

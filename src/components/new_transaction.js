@@ -1,6 +1,6 @@
 import React from 'react';
-import Currency from '../components/currency';
-import Amount from '../components/amount';
+import Currency from './currency';
+import Amount from './amount';
 import {Button, Paper} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 
