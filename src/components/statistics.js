@@ -36,7 +36,7 @@ function Statistics(props) {
               <TableCell size="small">Currency</TableCell>
               <TableCell size="small">Min Price</TableCell>
               <TableCell size="small">Max Price</TableCell>
-              <TableCell size="small">Median</TableCell>
+              <TableCell size="small">Average</TableCell>
             </TableRow>
           </TableHead>
           <PriceStat gt = {gt}></PriceStat>

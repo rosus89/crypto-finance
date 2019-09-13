@@ -9,6 +9,7 @@ const useStyles = makeStyles(theme => ({
         alignContent: 'stretch',
         padding: '1em',
         border: '1px solid rgba(130, 130, 130, 0.2)',
+        marginTop: '1em'
     },
     select: {
         flexGrow: 1
