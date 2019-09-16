@@ -52,23 +52,31 @@ export default function SignIn(props) {
     const [passwordHint, setPasswordHint] = React.useState(null)
 
     function loginUser(){
-        auth.signInWithEmailAndPassword(email,password).then(()=>{
-            setEmail("")
-            setPassword("")
-        }).catch((error)=>{
+        auth.signInWithEmailAndPassword(email,password).catch((error)=>{
             if (error.code === "auth/wrong-password"){
-                setPasswordHint("Invalid password.");
+                setPasswordHint("Incorrect password.");
                 setPasswordError(true);
+                setPassword("")
             }
             else {
                 setEmailHint("Account does not exist.");
                 setEmailError(true);
+                setEmail("")
+                setPassword("")
             }
         })
     };
 
-    function handleEmail(e) {
-        setEmail(e.target.value)
+    const handleEmail = e => {
+        setEmail(e.target.value);
+        setEmailHint(null);
+        setEmailError(false);
+    }
+
+    const handlePassword = e => {
+        setPassword(e.target.value);
+        setPasswordHint(null);
+        setPasswordError(false);
     }
 
 
@@ -93,9 +101,10 @@ export default function SignIn(props) {
                         name="email"
                         autoComplete="email"
                         autoFocus
-                        onChange = {(e) => { setEmail(e.target.value)}}
+                        onChange = {handleEmail}
                         error = {emailError}
                         helperText={emailHint}
+                        value={email}
                     />
                     <TextField
                         variant="outlined"
@@ -107,9 +116,10 @@ export default function SignIn(props) {
                         type="password"
                         id="password"
                         autoComplete="current-password" 
-                        onChange = {(e) => { setPassword(e.target.value)}}
+                        onChange = {handlePassword}
                         error = {passwordError}
                         helperText = {passwordHint}
+                        value = {password}
                     />
                     <FormControlLabel
                         control={<Checkbox value="remember" color="primary" />}
