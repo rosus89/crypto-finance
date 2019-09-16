@@ -1,16 +1,18 @@
 import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
+import {Avatar,
+        Button,
+        CssBaseline,
+        TextField, 
+        FormControlLabel, 
+        Checkbox, 
+        Link, 
+        Grid, 
+        Typography, 
+        makeStyles, 
+        Container } from '@material-ui/core';
+
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
+
 import {auth} from '../firebase'
 
 
@@ -42,12 +44,34 @@ const useStyles = makeStyles(theme => ({
 export default function SignIn(props) {
     const classes = useStyles();
     const [email, setEmail] = React.useState("");
+    const [emailError, setEmailError] = React.useState(false);
+    const [emailHint, setEmailHint] = React.useState(null);
+
     const [password, setPassword] = React.useState("");
+    const [passwordError, setPasswordError] = React.useState(false);
+    const [passwordHint, setPasswordHint] = React.useState(null)
 
     function loginUser(){
         auth.signInWithEmailAndPassword(email,password).then(()=>{
+            setEmail("")
+            setPassword("")
+        }).catch((error)=>{
+            if (error.code === "auth/wrong-password"){
+                setPasswordHint("Invalid password.");
+                setPasswordError(true);
+            }
+            else {
+                setEmailHint("Account does not exist.");
+                setEmailError(true);
+            }
         })
+    };
+
+    function handleEmail(e) {
+        setEmail(e.target.value)
     }
+
+
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -57,8 +81,8 @@ export default function SignIn(props) {
                 </Avatar>
                 <Typography component="h1" variant="h5">
                     Sign in
-        </Typography>
-                <form className={classes.form} noValidate>
+                </Typography>
+                <form className={classes.form}>
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -70,6 +94,8 @@ export default function SignIn(props) {
                         autoComplete="email"
                         autoFocus
                         onChange = {(e) => { setEmail(e.target.value)}}
+                        error = {emailError}
+                        helperText={emailHint}
                     />
                     <TextField
                         variant="outlined"
@@ -82,6 +108,8 @@ export default function SignIn(props) {
                         id="password"
                         autoComplete="current-password" 
                         onChange = {(e) => { setPassword(e.target.value)}}
+                        error = {passwordError}
+                        helperText = {passwordHint}
                     />
                     <FormControlLabel
                         control={<Checkbox value="remember" color="primary" />}
