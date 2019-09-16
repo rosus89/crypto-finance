@@ -25,7 +25,9 @@ export default function UserPage(props) {
                     <NewTransaction createTransaction={props.createTransaction} />
                 </Box>
 
-                <Transactions transactions={props.transactions} />
+                <Transactions transactions={props.transactions}
+                              deleteTransaction={props.deleteTransaction}
+                />
 
                 <Statistics transactions={props.transactions} />
             </Container>

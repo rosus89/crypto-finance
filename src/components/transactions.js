@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Table, TableBody, TableCell, TableHead, TableRow, Paper, Typography } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableHead, TableRow, Paper, Typography, Button } from '@material-ui/core';
 
 const styles = makeStyles(theme => ({
     transactions:{
@@ -30,6 +30,7 @@ function Transactions(props){
                         <TableCell size="small">{transaction.amount} {transaction.to}</TableCell>
                         <TableCell size="small">{transaction.price} {transaction.from}</TableCell>
                         <TableCell size="small">{transaction.amount * transaction.price} {transaction.from}</TableCell>
+                        <TableCell size="small"><Button onClick={()=>{props.deleteTransaction(transaction, index)}}>Delete</Button></TableCell>
                     </TableRow>
                 ))}
             </TableBody>

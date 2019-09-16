@@ -1,6 +1,6 @@
 import React from 'react';
 import {auth, fb} from './firebase'
-import firebase from 'firebase'
+ import firebase from 'firebase/app'
 
 
 import Account from './containers/account'
@@ -33,6 +33,19 @@ function App() {
       transactions: firebase.firestore.FieldValue.arrayUnion(addedTransaction)
     })
   };
+
+  //
+  // Delete Transaction
+  //
+
+  const deleteTransaction = (transaction, index) => {
+    let newTransactions = [...transactions];
+    newTransactions.splice(index, 1);
+    setTransactions(newTransactions)
+    fb.collection('users').doc(auth.currentUser.uid).update({
+      "transactions": firebase.firestore.FieldValue.arrayRemove(transaction)
+    })
+  }
 
   // 
   // Change app state on user Login / Logout
@@ -70,6 +83,7 @@ function App() {
    
   return (
     <UserPage createTransaction={createTransaction}
+              deleteTransaction ={deleteTransaction}
               transactions={transactions} 
               getData ={getData}
               setFetched={setFetched}
