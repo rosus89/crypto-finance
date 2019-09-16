@@ -1,5 +1,5 @@
 import React from 'react';
-import Select from 'react-select';
+import CreatableSelect from 'react-select/creatable'
 import { makeStyles } from '@material-ui/core/styles';
 
 
@@ -12,7 +12,8 @@ const useStyles = makeStyles(theme => ({
         marginTop: '1em'
     },
     select: {
-        flexGrow: 1
+        flexGrow: 1,
+        zIndex: 1001
     },
     divider: {
         fontSize: '1.4em',
@@ -20,24 +21,21 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const options = [
-    { label: 'BTC' },
-    { label: 'ETH' },
-    { label: 'EOS' },
-    { label: 'DAI' }
-].map(option => ({
-    value: option.label,
-    label: option.label,
-}));
+
 
 
 
 function Currency (props) {
-
     const classes = useStyles();
+
+    const options = props.currencies.map(option => ({
+        value: option,
+        label: option
+    }));
+
     return (
         <div className={classes.component}>
-        <Select
+        <CreatableSelect
             className= {classes.select}
             isClearable
             value= {props.from}
@@ -46,13 +44,12 @@ function Currency (props) {
             }}
             options= {options}
             placeholder = "FROM"
-            required
         />
         <div className={classes.divider}> > </div>
-        <Select
+        <CreatableSelect
             className={classes.select}
             isClearable
-                value={props.to}
+            value={props.to}
             onChange={(value) => {
                 props.setTo(value)
             }}

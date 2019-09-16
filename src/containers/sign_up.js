@@ -51,9 +51,9 @@ export default function SignUp(props) {
     function registerUser(){
         auth.createUserWithEmailAndPassword(email,password).then(cred => {
             resetForm();
-            // auth.signInWithCredential(cred);
             fb.collection('users').doc(auth.currentUser.uid).set({
-                transactions: []
+                transactions: [],
+                currencies: ['BTC', 'ETH', 'EOS', 'DAI']
             })
 
         })

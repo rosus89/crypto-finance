@@ -16,6 +16,7 @@ function App() {
   // 
 
   const [transactions, setTransactions] = React.useState([]);
+  const [currencies, setCurrencies] = React.useState([]);
   const [isAuth, setIsAuth] = React.useState(false);
   const [loaded, setLoaded] = React.useState(false);
   const [dataFetched, setFetched] = React.useState(false)
@@ -55,7 +56,6 @@ function App() {
     if (user){
       setIsAuth(true);
       setLoaded(true);
-      console.log("user signed in")
     }
     else {
       setIsAuth(false)
@@ -71,7 +71,8 @@ function App() {
     fb.collection('users').doc(auth.currentUser.uid).get().then(doc => {
       let data = doc.data();
       console.log(data);
-      setTransactions(data.transactions)
+      setTransactions(data.transactions);
+      setCurrencies(data.currencies)
     }, [])
   };
 
@@ -84,7 +85,8 @@ function App() {
   return (
     <UserPage createTransaction={createTransaction}
               deleteTransaction ={deleteTransaction}
-              transactions={transactions} 
+              transactions={transactions}
+              currencies={currencies}
               getData ={getData}
               setFetched={setFetched}
               dataFetched={dataFetched}

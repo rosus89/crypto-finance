@@ -22,7 +22,7 @@ export default function UserPage(props) {
             <TopBar />
             <Container component="main">
                 <Box className="transaction">
-                    <NewTransaction createTransaction={props.createTransaction} />
+                    <NewTransaction createTransaction={props.createTransaction} currencies={props.currencies}/>
                 </Box>
 
                 <Transactions transactions={props.transactions}

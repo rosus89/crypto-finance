@@ -30,6 +30,7 @@ let NewTransaction = (props) => {
               setFrom = {setFrom}
               to = {to}
               setTo = {setTo}
+              currencies = {props.currencies}
     />
     <Amount
             amount = {amount}
