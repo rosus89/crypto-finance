@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
+import {connect} from 'react-redux';
 import { Container, Box, CssBaseline } from '@material-ui/core';
 import NewTransaction from '../components/new_transaction';
 import Transactions from '../components/transactions';
 import Statistics from '../components/statistics';
 import TopBar from '../components/appBar';
+import { getData, deleteTransaction } from '../actions'
 
 
-export default function UserPage(props) {
+function UserPage(props) {
 
     useEffect(() => {
         if (!props.dataFetched) {
@@ -29,8 +31,10 @@ export default function UserPage(props) {
                               deleteTransaction={props.deleteTransaction}
                 />
 
-                <Statistics transactions={props.transactions} />
+                <Statistics />
             </Container>
         </React.Fragment>
     )
 }
+
+export default connect(null, {getData,deleteTransaction})(UserPage)

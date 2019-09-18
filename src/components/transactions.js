@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles';
 import { Table, TableBody, TableCell, TableHead, TableRow, Paper, Typography, Button } from '@material-ui/core';
 
@@ -41,4 +42,10 @@ function Transactions(props){
     )
 }
 
-export default Transactions;
+function mapState(state) {
+    return {
+        transactions: state.transactions
+    }
+}
+
+export default connect(mapState) (Transactions);

@@ -13,6 +13,8 @@
     "react-redux": "^7.1.1",
     "react-scripts": "3.0.1",
     "react-select": "^3.0.4",
+    "redux": "^4.0.4",
+    "redux-thunk": "^2.3.0",
     "shrimpy-node": "^0.2.7"
   },
   "scripts": {

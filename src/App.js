@@ -1,7 +1,8 @@
 import React from 'react';
-import {auth, fb} from './firebase'
- import firebase from 'firebase/app'
+import {auth} from './firebase';
+import {connect} from 'react-redux';
 
+import {authUser, setLoading} from './actions'
 
 import Account from './containers/account'
 import Loading from './containers/loading'
@@ -9,91 +10,44 @@ import UserPage from './containers/userPage'
 
 
 
-function App() {
+function App( { isAuth , authUser, isLoading, setLoading }) {
 
   // 
   // State
   // 
 
-  const [transactions, setTransactions] = React.useState([]);
-  const [currencies, setCurrencies] = React.useState([]);
-  const [isAuth, setIsAuth] = React.useState(false);
-  const [loaded, setLoaded] = React.useState(false);
+
   const [dataFetched, setFetched] = React.useState(false)
 
-  // 
-  // Create new Transaction
-  // 
 
-  const createTransaction = (from, to, amount, price) => {
-    const addedTransaction = { "from": from, "to": to, "amount": amount, "price": price }
-    // adds transaction to state
-    setTransactions([...transactions, addedTransaction ])
-    //adds transaction to database
-    fb.collection('users').doc(auth.currentUser.uid).update({
-      transactions: firebase.firestore.FieldValue.arrayUnion(addedTransaction)
-    })
-  };
-
-  //
-  // Delete Transaction
-  //
-
-  const deleteTransaction = (transaction, index) => {
-    let newTransactions = [...transactions];
-    newTransactions.splice(index, 1);
-    setTransactions(newTransactions)
-    fb.collection('users').doc(auth.currentUser.uid).update({
-      "transactions": firebase.firestore.FieldValue.arrayRemove(transaction)
-    })
-  }
 
   // 
   // Change app state on user Login / Logout
   // 
 
+
   auth.onAuthStateChanged(function(user){
     if (user){
-      setIsAuth(true);
-      setLoaded(true);
+      authUser(true);
+      setLoading(true);
     }
     else {
-      setIsAuth(false)
-      setLoaded(true);
+      authUser(false)
+      setLoading(true);
     }
   })
 
-  //
-  // Fetch Data from database
-  //
 
-  const getData = () => {
-    fb.collection('users').doc(auth.currentUser.uid).get().then(doc => {
-      let data = doc.data();
-      console.log(data);
-      setTransactions(data.transactions);
-      setCurrencies(data.currencies)
-    }, [])
-  };
-
-  //
-  // Change Change app state on user Login
-  //
 
   if (isAuth){
-   
   return (
-    <UserPage createTransaction={createTransaction}
-              deleteTransaction ={deleteTransaction}
-              transactions={transactions}
-              currencies={currencies}
-              getData ={getData}
+    <UserPage
               setFetched={setFetched}
               dataFetched={dataFetched}
               />
   )
   }
-  else if (loaded === true) {
+  else if (isLoading === true) {
     return (
       <Account setFetched={setFetched} />
     )
@@ -105,4 +59,13 @@ function App() {
   }
 }
 
-export default App;
+function mapState(state){
+  return {
+    isAuth: state.isAuth,
+    isLoading: state.isLoading,
+    dataFetched: state.dataFetched
+  }
+}
+
+
+export default connect(mapState,{authUser, setLoading})(App);

@@ -1,6 +1,7 @@
 import React from 'react';
-import { Table, TableCell, TableHead, TableRow, Paper, Typography} from '@material-ui/core';
-import PriceStat from './priceStat'
+import { connect } from 'react-redux';
+import { Table, TableCell, TableHead, TableRow, Paper} from '@material-ui/core';
+import PriceStat from './priceStat';
 
 const groupBy = key => array =>
   array.reduce((objectsByKeyValue, obj) => {
@@ -9,9 +10,9 @@ const groupBy = key => array =>
     return objectsByKeyValue;
   }, {});
 
-const mapCurrency = prop => prop.map(transaction => 
+const mapCurrency = transactions => transactions.map(transaction => 
   ({
-    exchange: transaction.from + "to" + transaction.to, 
+    exchange: transaction.from + " -> " + transaction.to, 
     amount: transaction.amount,
     price: transaction.price
   })
@@ -21,12 +22,9 @@ const groupByExchange = groupBy('exchange');
 
 
 function Statistics(props) {
-  let output = <Typography>Two transactions of same currency are required.</Typography>
+  let output = null;
   let transactions = mapCurrency(props.transactions);
-
-  
   let groupedTransactions = groupByExchange(transactions);
-  let gt = groupedTransactions;
 
     if (props.transactions.length > 0) {
       output = (
@@ -39,7 +37,7 @@ function Statistics(props) {
               <TableCell size="small">Average</TableCell>
             </TableRow>
           </TableHead>
-          <PriceStat gt = {gt}></PriceStat>
+          <PriceStat gt={groupedTransactions}></PriceStat>
         </Table>
       )
     }
@@ -50,4 +48,10 @@ function Statistics(props) {
     )
 }
 
-export default Statistics;
+function mapState(state) {
+  return {
+    transactions: state.transactions
+  }
+}
+
+export default connect(mapState)(Statistics);
