@@ -1,8 +1,10 @@
 import React from 'react';
-import Currency from './currency';
+import {connect} from 'react-redux';
+import SelectCurrency from './select_currency';
 import Amount from './amount';
-import {Button, Paper} from '@material-ui/core'
+import {Button, Paper} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { createTransaction } from '../actions';
 
 const styles = makeStyles(theme => ({
   buttonContainer: {
@@ -15,22 +17,32 @@ const styles = makeStyles(theme => ({
 
 let NewTransaction = (props) => {
   const classes = styles();
-  const [from, setFrom] = React.useState(null);
-  const [to, setTo] = React.useState(null);
   const [amount, setAmount] = React.useState(null);
   const [price, setPrice] = React.useState(null);
+  const [from, setFrom] = React.useState(null);
+  const [to, setTo] = React.useState(null);
 
+  const date = new Date();
 
+  const handleNewTransaction = () =>{
+    const newTransaction = { 
+      "from":from.value,
+      "to":to.value,
+      "amount":amount,
+      "price":price,
+      "date":date
+    }
+    props.createTransaction(newTransaction)
+  }
 
   return (
     <Paper>
     <form>
-    <Currency
-              from = {from}
-              setFrom = {setFrom}
-              to = {to}
-              setTo = {setTo}
-              currencies = {props.currencies}
+    <SelectCurrency 
+                    from = {from}
+                    to = {to}
+                    setFrom = {setFrom}
+                    setTo = {setTo}
     />
     <Amount
             amount = {amount}
@@ -43,7 +55,7 @@ let NewTransaction = (props) => {
               variant="outlined"
               color="primary"
               className={classes.saveButton}
-              onClick={() => props.createTransaction(from.value, to.value, amount, price)}
+              onClick={handleNewTransaction}
       >
             Save
     </Button>
@@ -53,4 +65,4 @@ let NewTransaction = (props) => {
   );
 }
 
-export default NewTransaction;
+export default connect(null, {createTransaction}) (NewTransaction);
