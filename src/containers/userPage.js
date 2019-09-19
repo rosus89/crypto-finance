@@ -5,18 +5,15 @@ import NewTransaction from '../components/new_transaction';
 import Transactions from '../components/transactions';
 import Statistics from '../components/statistics';
 import TopBar from '../components/appBar';
-import { getData, deleteTransaction } from '../actions'
+import { getData, deleteTransaction } from '../actions';
+import Alert from '../components/alert'
 
 
 function UserPage(props) {
 
     useEffect(() => {
-        if (!props.dataFetched) {
             props.getData();
-            props.setFetched(true)
-        }
     })
-
 
     return (
         <React.Fragment>
@@ -33,6 +30,7 @@ function UserPage(props) {
 
                 <Statistics />
             </Container>
+            <Alert />
         </React.Fragment>
     )
 }

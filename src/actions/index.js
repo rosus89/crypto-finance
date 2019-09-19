@@ -1,12 +1,11 @@
 import { AUTH_USER,
-         REGISTER_USER,
          ADD_TRANSACTION,
          ADD_CURRENCY,
          SET_LOADED,
-         SET_DATA_FETCHED,
-         CREATE_TRANSACTION,
          DELETE_TRANSACTION,
-         FETCH_DATA} from './types'
+         FETCH_DATA,
+         SET_ALERT
+        } from './types'
          
 import firebase from 'firebase/app'
 import {fb, auth} from '../firebase';
@@ -53,5 +52,32 @@ export function setLoading(state){
     return {
         type: SET_LOADED,
         payload: state
+    }
+}
+
+export function addCurrency(currency){
+    return {
+        type: ADD_CURRENCY,
+        payload: currency
+    }
+}
+
+export function setAlert(msg) {
+    return {
+        type: SET_ALERT,
+        payload: {
+            "msg": msg,
+            "open": true
+        }
+    }
+}
+
+export function closeAlert() {
+    return {
+        type: SET_ALERT,
+        payload: {
+            "msg": "",
+            "open": false
+        }
     }
 }

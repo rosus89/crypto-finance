@@ -1,8 +1,8 @@
 import React from 'react';
-import CreatableSelect from 'react-select/creatable'
+import CreatableSelect from 'react-select/creatable';
 import { makeStyles } from '@material-ui/core/styles';
-import { connect } from 'react-redux'
-
+import { connect } from 'react-redux';
+import { addCurrency } from '../actions'
 
 const useStyles = makeStyles(theme => ({
     component: {
@@ -18,12 +18,12 @@ const useStyles = makeStyles(theme => ({
     },
     divider: {
         fontSize: '1.4em',
-        margin : 'auto'
+        margin: 'auto'
     }
 }));
 
 
-function SelectCurrency({ currencies, from, to, setFrom, setTo }) {
+function SelectCurrency({ currencies, from, to, setFrom, setTo, addCurrency }) {
     const classes = useStyles();
 
     const options = currencies.map(option => ({
@@ -31,25 +31,46 @@ function SelectCurrency({ currencies, from, to, setFrom, setTo }) {
         label: option
     }));
 
+    const handleChangeFrom = (value) => {
+        setFrom(value);
+    }
+
+    const handleChangeTo = (value) => {
+        setTo(value);
+    }
+
+    const handleOnCreateFrom = (value) => {
+        const currency =value.toUpperCase();
+        addCurrency(currency);
+        handleChangeFrom(currency);
+    }
+    const handleOnCreateTo = (value) => {
+        const currency = value.toUpperCase();
+        addCurrency(currency);
+        handleChangeTo(currency)
+    }
+
     return (
         <div className={classes.component}>
-        <CreatableSelect
-            className= {classes.select}
-            isClearable
-            value= {from}
-            onChange={(value) => {setFrom(value)}}
-            options= {options}
-            placeholder = "FROM"
-        />
-        <div className={classes.divider}> > </div>
-        <CreatableSelect
-            className={classes.select}
-            isClearable
-            value={to}
-            onChange={(value) => {setTo(value)}}
-            options={options}
-            placeholder="TO"
-        />
+            <CreatableSelect
+                className={classes.select}
+                isClearable
+                value={from}
+                onChange={handleChangeFrom}
+                options={options}
+                placeholder="FROM"
+                onCreateOption={handleOnCreateFrom}
+            />
+            <div className={classes.divider}> > </div>
+            <CreatableSelect
+                className={classes.select}
+                isClearable
+                value={to}
+                onChange={handleChangeTo}
+                options={options}
+                placeholder="TO"
+                onCreateOption={handleOnCreateTo}
+            />
         </div>
     )
 }
@@ -57,13 +78,13 @@ function SelectCurrency({ currencies, from, to, setFrom, setTo }) {
 const mapState = (state, ownProps) => {
     const { from, to, setFrom, setTo } = ownProps;
     return {
-        currencies : state.currencies,
+        currencies: state.currencies,
         from,
         to,
         setFrom,
-        setTo 
+        setTo
     }
 }
 
 
-export default connect(mapState)(SelectCurrency);
+export default connect(mapState, {addCurrency})(SelectCurrency);

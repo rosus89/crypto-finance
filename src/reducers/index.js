@@ -1,13 +1,11 @@
 import {
     AUTH_USER,
-    REGISTER_USER,
     ADD_TRANSACTION,
     ADD_CURRENCY,
     SET_LOADED,
-    SET_DATA_FETCHED,
-    CREATE_TRANSACTION,
     DELETE_TRANSACTION,
-    FETCH_DATA
+    FETCH_DATA,
+    SET_ALERT
 } from "../actions/types";
 
 
@@ -16,8 +14,10 @@ let initialState = {
     currencies: [],
     isAuth: false,
     isLoading: false,
-    dataFetched: false,
-    newTransaction: {}
+    alert: {
+        msg: "",
+        open: false
+    }
 };
 
 
@@ -51,12 +51,24 @@ export default function rootReducer(state = initialState, action) {
                 transactions: newTransactions
             }
 
+        case ADD_CURRENCY:
+            // TODO : ADD TO DB
+            return{
+                ...state,
+                currencies: [...state.currencies, action.payload]
+            }
         case SET_LOADED:
             return { 
                 ...state,
                 isLoading: action.payload
             }
-        
+
+        case SET_ALERT:
+            return {
+                ...state,
+                alert: action.payload
+            }
+
         default:
             return state;
     }
