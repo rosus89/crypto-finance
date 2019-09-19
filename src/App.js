@@ -1,8 +1,8 @@
 import React from 'react';
-import {auth} from './firebase';
-import {connect} from 'react-redux';
+import { auth } from './firebase';
+import { connect } from 'react-redux';
 
-import {authUser, setLoading} from './actions'
+import { authUser, setLoading } from './actions'
 
 import Account from './containers/account'
 import Loading from './containers/loading'
@@ -10,24 +10,14 @@ import UserPage from './containers/userPage'
 
 
 
-function App( { isAuth , authUser, isLoading, setLoading }) {
-
-  // 
-  // State
-  // 
-
-
-  const [dataFetched, setFetched] = React.useState(false)
-
-
+function App({ isAuth, authUser, isLoading, setLoading }) {
 
   // 
   // Change app state on user Login / Logout
   // 
 
-
-  auth.onAuthStateChanged(function(user){
-    if (user){
+  auth.onAuthStateChanged(function (user) {
+    if (user) {
       authUser(true);
       setLoading(true);
     }
@@ -39,17 +29,16 @@ function App( { isAuth , authUser, isLoading, setLoading }) {
 
 
 
-  if (isAuth){
-  return (
-    <UserPage
-              setFetched={setFetched}
-              dataFetched={dataFetched}
-              />
-  )
+  if (isAuth) {
+    return (
+      <UserPage
+
+      />
+    )
   }
   else if (isLoading === true) {
     return (
-      <Account setFetched={setFetched} />
+      <Account  />
     )
   }
   else {
@@ -59,7 +48,7 @@ function App( { isAuth , authUser, isLoading, setLoading }) {
   }
 }
 
-function mapState(state){
+function mapState(state) {
   return {
     isAuth: state.isAuth,
     isLoading: state.isLoading,
@@ -68,4 +57,4 @@ function mapState(state){
 }
 
 
-export default connect(mapState,{authUser, setLoading})(App);
+export default connect(mapState, { authUser, setLoading })(App);
