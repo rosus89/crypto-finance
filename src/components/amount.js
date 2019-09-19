@@ -29,6 +29,7 @@ function Amount(props){
                 className= {classes.amount}
                 label = 'Amount'
                 type = 'number'
+                value = {props.amount}
                 onChange = {(e)=>{ props.setAmount(e.target.value)}}
                 required
         />
@@ -37,6 +38,7 @@ function Amount(props){
                 className={classes.price}
                 label = 'Price'
                 type='number'
+                value = {props.price}
                 onChange={(e) => { props.setPrice(e.target.value) }}
                 required
         />

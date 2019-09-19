@@ -4,7 +4,6 @@ import SignUp from './sign_up';
 
 function Account(props){
     const [page, setPage] = React.useState("signIn");
-    props.setFetched(false);
     if (page === "signIn"){
         return (<SignIn setPage = {setPage} />)
     }

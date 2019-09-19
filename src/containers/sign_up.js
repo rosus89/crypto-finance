@@ -48,6 +48,7 @@ export default function SignUp(props) {
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
     const classes = useStyles();
+    
     function registerUser(){
         auth.createUserWithEmailAndPassword(email,password).then(cred => {
             resetForm();
